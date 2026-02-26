@@ -180,12 +180,11 @@ require_once __DIR__ . '/../config/auth.php';
             border-left: 4px solid #ff3b30; /* Vermelho alerta Apple */
         }
 
-        /* Controles Inferiores */
         .meet-footer {
             height: 88px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center; /* <--- Mude para 'center' */
             padding: 0 32px;
             background: #ffffff;
             border-top: 1px solid #e5e5ea;
