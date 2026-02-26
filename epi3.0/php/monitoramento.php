@@ -352,10 +352,6 @@ require_once __DIR__ . '/../config/auth.php';
     
 
 
-
-
-
-
        
 
         .infraction-card {
@@ -492,9 +488,13 @@ require_once __DIR__ . '/../config/auth.php';
 
             <div class="meet-main">
              <section class="meet-presentation">
-                   <div class="editor-header">
+            <div class="editor-header">
     Câmera Principal
-         </div>
+    <span id="ia-detecao" style="margin-left: auto; display: none; align-items: center; gap: 6px; font-weight: 500;">
+        <i data-lucide="scan-face" size="16"></i>
+        <span id="ia-nome-usuario">Aguardando...</span>
+    </span>
+</div>
                     <div class="editor-content" style="position: relative;">
                         <div id="camera-off-text" style="display: none; position: absolute; flex-direction: column; align-items: center; color: white; z-index: 1;">
                             <i data-lucide="video-off" size="48" style="color: #ff3b30; margin-bottom: 10px;"></i>
@@ -711,6 +711,38 @@ window.addEventListener('click', function(e) {
     lucide.createIcons({ root: btnCamera });
     lucide.createIcons({ root: textOff });
 }
+
+// Verifica o status da IA ao vivo
+function verificarStatusIA() {
+    const cameraFeed = document.getElementById('camera-feed');
+    const containerDetecao = document.getElementById('ia-detecao');
+    const textoNome = document.getElementById('ia-nome-usuario');
+
+    // Se a câmera estiver desligada, esconde o nome
+    if (!cameraFeed.src.includes('video_feed')) {
+        containerDetecao.style.display = 'none';
+        return;
+    }
+
+    // Pergunta ao Python quem ele está vendo
+    fetch('http://localhost:5000/status_ia')
+        .then(res => res.json())
+        .then(data => {
+            containerDetecao.style.display = 'flex'; // Mostra a barra
+
+            if (data.nome !== "Desconhecido") {
+                textoNome.innerHTML = `Reconhecido: <b style="color: #1d1d1f;">${data.nome}</b>`;
+                containerDetecao.style.color = "#34c759"; // Fica verde quando reconhece
+            } else {
+                textoNome.innerHTML = `Buscando rosto...`;
+                containerDetecao.style.color = "#86868b"; // Fica cinza quando não reconhece ninguém
+            }
+        })
+        .catch(err => console.log("Erro ao buscar status IA"));
+}
+
+// Executa a verificação a cada 1 segundo (1000 milissegundos)
+setInterval(verificarStatusIA, 1000);
     </script>
 
 </body>
