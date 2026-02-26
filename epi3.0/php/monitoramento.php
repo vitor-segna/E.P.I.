@@ -643,36 +643,56 @@ window.addEventListener('click', function(e) {
 
 
 
-        // Função para Ligar/Desligar a Câmera
-        function toggleCamera() {
-            const cameraFeed = document.getElementById('camera-feed');
-            const btnCamera = document.getElementById('btn-camera');
-            const icone = btnCamera.querySelector('i');
-            const textOff = document.getElementById('camera-off-text');
+       async function toggleCamera() {
+    const cameraFeed = document.getElementById('camera-feed');
+    const btnCamera = document.getElementById('btn-camera');
+    const icone = btnCamera.querySelector('i');
+    const textOff = document.getElementById('camera-off-text');
+    
+    // Garante que a tag P existe dentro da mensagem de desligado
+    let statusP = textOff.querySelector('p');
+    if (!statusP) {
+        statusP = document.createElement('p');
+        statusP.style.color = '#86868b';
+        statusP.style.fontSize = '14px';
+        statusP.style.marginTop = '5px';
+        textOff.appendChild(statusP);
+    }
 
-            if (cameraFeed.src.includes('video_feed')) {
-                // DESLIGAR (Fica Verde com ícone de Câmera normal)
-                cameraFeed.src = ""; // Remove o link, cortando a conexão com o Python
-                cameraFeed.style.opacity = "0"; // Esconde a imagem
-                textOff.style.display = "flex"; // Mostra o texto de câmera desligada
-                
-                btnCamera.style.background = "#34c759"; // Botão fica verde
-                icone.setAttribute('data-lucide', 'video'); // Ícone de ligar a câmera
-            } else {
-                // LIGAR (Fica Vermelho com ícone de Câmera cortada)
-                // O "?t=" evita que o navegador pegue a imagem em cache
-                cameraFeed.src = "http://localhost:5000/video_feed?t=" + new Date().getTime();
-                cameraFeed.style.opacity = "1"; // Mostra a imagem
-                textOff.style.display = "none"; // Esconde o texto
-                
-                btnCamera.style.background = "#ff3b30"; // Botão volta a ficar vermelho
-                icone.setAttribute('data-lucide', 'video-off'); // Ícone de desligar a câmera
-            }
-            
-            // Atualiza os ícones na tela
-            lucide.createIcons({ root: btnCamera });
-            lucide.createIcons({ root: textOff });
-        }
+    if (cameraFeed.src.includes('video_feed')) {
+        // --- AÇÃO: DESLIGAR ---
+        // Avisa o Python para parar de processar a IA e soltar a webcam
+        await fetch('http://localhost:5000/desligar').catch(e => console.error(e));
+
+        cameraFeed.src = ""; 
+        cameraFeed.style.opacity = "0"; 
+        textOff.style.display = "flex"; 
+        statusP.innerText = "Câmera e Inteligência Artificial desligadas.";
+        
+        btnCamera.style.background = "#34c759"; 
+        icone.setAttribute('data-lucide', 'video'); 
+    } else {
+        // --- AÇÃO: LIGAR ---
+        statusP.innerText = "Iniciando a Câmera e o YOLO...";
+        textOff.style.display = "flex";
+        
+        // Avisa o Python para ligar a webcam e voltar a processar a IA
+        await fetch('http://localhost:5000/ligar').catch(e => console.error(e));
+
+        // Aguarda 2 segundinhos só para a webcam física ligar a luz
+        await new Promise(r => setTimeout(r, 2000));
+
+        cameraFeed.src = "http://localhost:5000/video_feed?t=" + new Date().getTime();
+        cameraFeed.style.opacity = "1"; 
+        textOff.style.display = "none"; 
+        
+        btnCamera.style.background = "#ff3b30"; 
+        icone.setAttribute('data-lucide', 'video-off'); 
+    }
+    
+    lucide.createIcons({ root: btnCamera });
+    lucide.createIcons({ root: textOff });
+}
     </script>
 
 </body>
