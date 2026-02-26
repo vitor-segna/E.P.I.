@@ -445,10 +445,10 @@ require_once __DIR__ . '/../config/auth.php';
 
     <main class="main-content">
         <header class="header">
-            <div class="page-title">
-                <h1>Monitoramento de Laboratório</h1>
-                <p>Laboratório B • Câmera Ao Vivo</p>
-            </div>
+           <div class="page-title">
+    <h1>Monitoramento de Laboratório</h1>
+    <p>Câmera Ao Vivo</p>
+</div>
             <div class="header-actions">
                 <div class="user-profile-trigger" id="profileTrigger" onclick="toggleInstructorCard()">
                     <div class="user-info-mini">
@@ -470,9 +470,9 @@ require_once __DIR__ . '/../config/auth.php';
 
             <div class="meet-main">
              <section class="meet-presentation">
-                    <div class="editor-header">
-                        Câmera Principal - Lab B
-                    </div>
+                   <div class="editor-header">
+    Câmera Principal
+         </div>
                     <div class="editor-content" style="position: relative;">
                         <div id="camera-off-text" style="display: none; position: absolute; flex-direction: column; align-items: center; color: white; z-index: 1;">
                             <i data-lucide="video-off" size="48" style="color: #ff3b30; margin-bottom: 10px;"></i>
@@ -501,8 +501,7 @@ require_once __DIR__ . '/../config/auth.php';
             </div>
 
           <footer class="meet-footer">
-    <div class="meeting-details">14:58 | lab-b-cam-01</div>
-
+    
     <div class="controls">
         <div class="layout-menu-container">
             <button class="btn-meet" onclick="toggleLayoutMenu()">
@@ -523,10 +522,7 @@ require_once __DIR__ . '/../config/auth.php';
         </button>
     </div>
 
-    <div class="right-tools">
-        <i data-lucide="settings" size="20"></i>
-        <i data-lucide="activity" size="20"></i>
-    </div>
+    
 </footer>
         </div>
 
