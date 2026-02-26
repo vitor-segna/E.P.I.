@@ -482,7 +482,7 @@ require_once __DIR__ . '/../config/auth.php';
             <div class="meet-header-info">
                 <div class="meet-user-info">
                     <i data-lucide="shield-check" style="color: #34c759; width: 18px;"></i>
-                    Visualizando como: <strong>Professor Logado</strong>
+                    Visualizando como: <strong>Aluno:</strong>
                 </div>
             </div>
 
