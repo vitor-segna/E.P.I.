@@ -158,13 +158,7 @@ require_once __DIR__ . '/../config/auth.php';
             100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
         }
 
-        .chat-logs {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow-y: auto;
-        }
+
 
         .chat-msg {
             background: #f5f5f7;
@@ -317,23 +311,52 @@ require_once __DIR__ . '/../config/auth.php';
         /* ==========================================
            CARDS DE INFRAÇÃO (COM SOMBRA FORTE)
            ========================================== */
+    /* ==========================================
+           ÁREA DE INFRAÇÕES E BARRA DE ROLAGEM
+           ========================================== */
         .chat-logs {
-            flex: 1;
+            flex: 1 1 0; /* O '0' no final é muito importante aqui */
+            min-height: 0; /* Força o limite de altura para ativar o scroll */
             display: flex;
             flex-direction: column;
             gap: 14px;
-            overflow-y: auto;
-            padding-right: 5px; /* Espaço para a barra de rolagem */
+            overflow-y: auto; /* Ativa a rolagem */
+            padding-right: 8px;
+            
+            /* Para Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: #c7c7cc transparent;
         }
 
-        /* Estilizando a barra de rolagem para ficar mais limpa */
+        /* Barra de rolagem para Chrome, Edge e Safari */
         .chat-logs::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
+        
+        /* Fundo da barra */
+        .chat-logs::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        
+        /* O "indicador" que você arrasta */
         .chat-logs::-webkit-scrollbar-thumb {
-            background-color: #d1d1d6;
+            background-color: #c7c7cc; 
             border-radius: 10px;
         }
+        
+        /* Cor do indicador ao passar o mouse */
+        .chat-logs::-webkit-scrollbar-thumb:hover {
+            background-color: #8e8e93; 
+        }
+    
+    
+
+
+
+
+
+
+       
 
         .infraction-card {
             background: #ffffff;
